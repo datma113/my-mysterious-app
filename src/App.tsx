@@ -4,6 +4,10 @@ import ReactLogo from "@/assets/react.svg?react";
 function App() {
     const [count, setCount] = useState(0);
 
+    const endpoint = import.meta.env.VITE_MY_MISTERIOUS_ENDPOINT;
+
+    console.log(endpoint);
+
     return (
         <>
             <div>
