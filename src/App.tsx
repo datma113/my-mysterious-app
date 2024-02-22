@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import ReactLogo from "@/assets/react.svg?react";
+import { useGetAuth } from "@/features/authentication/hooks/useGetAuth.ts";
 
 function App() {
-    const [count, setCount] = useState(0);
+    const { user, dispatchSetUser } = useGetAuth();
 
     const endpoint = import.meta.env.VITE_MY_MISTERIOUS_ENDPOINT;
 
-    console.log(endpoint);
-
+    useEffect(() => {
+        dispatchSetUser({
+            fullName: "Đạt Ma",
+            age: 24,
+        });
+    }, []);
     return (
         <>
             <div>
@@ -15,19 +20,7 @@ function App() {
                     <ReactLogo />
                 </a>
             </div>
-
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
+            <p> hello: {user?.fullName || "no name"} </p>
         </>
     );
 }
