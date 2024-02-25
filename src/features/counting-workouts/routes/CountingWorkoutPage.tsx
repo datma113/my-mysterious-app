@@ -23,14 +23,17 @@ export const CountingWorkoutPage = () => {
         useState(INITIAL_INTERVAL);
     const [intervalRest, setIntervalRest] = useState(INITIAL_INTERVAL);
 
-    const handleStartWorkout = () => {
-        setIsStart(true);
-
+    const handleSoundWhenStartWorkout = () => {
         doneSoundAudio.play();
         countingSoundAudio.play();
         restSoundAudio.pause();
-
+    };
+    const handleStartWorkout = () => {
+        setIsStart(true);
         setIsInWorkout(true);
+
+        handleSoundWhenStartWorkout();
+
         const interval = setInterval(() => {
             setWorkoutCounting((prev) => prev + 1);
         }, 1000);
