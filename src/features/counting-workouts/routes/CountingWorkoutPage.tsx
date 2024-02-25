@@ -28,6 +28,12 @@ export const CountingWorkoutPage = () => {
         countingSoundAudio.play();
         restSoundAudio.pause();
     };
+
+    const handleSoundWhenStartRest = () => {
+        countingSoundAudio.pause();
+        doneSoundAudio.play();
+        restSoundAudio.play();
+    };
     const handleStartWorkout = () => {
         setIsStart(true);
         setIsInWorkout(true);
@@ -41,9 +47,8 @@ export const CountingWorkoutPage = () => {
     };
 
     const handleStartRest = () => {
-        countingSoundAudio.pause();
-        doneSoundAudio.play();
-        restSoundAudio.play();
+        handleSoundWhenStartRest();
+        
         const interval = setInterval(() => {
             setRestCounting((prev) => prev + 1);
         }, 1000);
