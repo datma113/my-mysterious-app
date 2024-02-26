@@ -18,7 +18,6 @@ export const CountingWorkoutPage = () => {
     const [restCounting, setRestCounting] = useState(0);
     const [isStart, setIsStart] = useState(false);
     const [isInWorkout, setIsInWorkout] = useState(false);
-
     const [intervalStartWorkout, setIntervalStartWorkout] =
         useState(INITIAL_INTERVAL);
     const [intervalRest, setIntervalRest] = useState(INITIAL_INTERVAL);
@@ -48,7 +47,7 @@ export const CountingWorkoutPage = () => {
 
     const handleStartRest = () => {
         handleSoundWhenStartRest();
-        
+
         const interval = setInterval(() => {
             setRestCounting((prev) => prev + 1);
         }, 1000);
@@ -57,10 +56,13 @@ export const CountingWorkoutPage = () => {
 
     const handleEndWorkout = () => {
         clearInterval(intervalStartWorkout);
+
         setIsStart(false);
         setRestCounting(0);
         setWorkoutCounting(0);
+
         clearInterval(intervalRest);
+
         countingSoundAudio.pause();
         restSoundAudio.pause();
     };
@@ -68,10 +70,13 @@ export const CountingWorkoutPage = () => {
     useEffect(() => {
         if (!isStart) return;
 
-        if (workoutCounting > WORKOUT_TIME) {
+        const endWorkoutProcess = workoutCounting > WORKOUT_TIME;
+        if (endWorkoutProcess) {
             setWorkoutCounting(0);
             setIsInWorkout(false);
+
             clearInterval(intervalStartWorkout);
+
             handleStartRest();
         }
     }, [workoutCounting, isInWorkout, intervalStartWorkout, isStart]);
@@ -81,20 +86,22 @@ export const CountingWorkoutPage = () => {
 
         if (isInWorkout) {
             setRestCounting(0);
-
             return;
         }
 
-        if (restCounting > REST_TIME) {
+        const endRestProcess = restCounting > REST_TIME;
+        if (endRestProcess) {
             setRestCounting(0);
+
             clearInterval(intervalRest);
+
             handleStartWorkout();
         }
     }, [restCounting, isInWorkout, isStart, intervalRest]);
 
     return (
-        <Stack direction={"column"} justifyContent={"left"} spacing={4}>
-            <Stack direction={"row"} spacing={4}>
+        <Stack direction={"column"} alignItems={"center"} spacing={2}>
+            <Stack direction={"row"} justifyContent={"center"} spacing={2}>
                 <Button
                     variant="contained"
                     onClick={handleStartWorkout}
@@ -111,17 +118,48 @@ export const CountingWorkoutPage = () => {
                     end
                 </Button>
             </Stack>
-            <Stack direction={"row"} spacing={4}>
-                <Typography textAlign={"left"} fontSize={"36px"} color={"red"}>
-                    {workoutCounting}
+            <Stack>
+                <Typography color={"red"}>
+                    Workout time set: {WORKOUT_TIME}
                 </Typography>
-                <Typography
-                    textAlign={"left"}
-                    fontSize={"36px"}
-                    color={"green"}
-                >
-                    {restCounting}
+                <Typography color={"green"}>
+                    Rest time set: {REST_TIME}
                 </Typography>
+            </Stack>
+
+            <Stack direction={"column"}>
+                {isInWorkout && isStart && (
+                    <>
+                        <Typography fontSize={"150px"} color={"red"}>
+                            {workoutCounting}
+                        </Typography>
+                        <Typography
+                            fontWeight={"medium"}
+                            fontSize={"36px"}
+                            color={"red"}
+                        >
+                            In workout
+                        </Typography>
+                    </>
+                )}
+                {!isInWorkout && isStart && (
+                    <>
+                        <Typography
+                            textAlign={"left"}
+                            fontSize={"150px"}
+                            color={"green"}
+                        >
+                            {restCounting}
+                        </Typography>
+                        <Typography
+                            fontWeight={"medium"}
+                            fontSize={"36px"}
+                            color={"green"}
+                        >
+                            In Rest
+                        </Typography>
+                    </>
+                )}
             </Stack>
         </Stack>
     );
