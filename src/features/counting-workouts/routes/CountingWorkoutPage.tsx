@@ -14,6 +14,10 @@ const restSoundAudio = new Audio(restSounds);
 countingSoundAudio.loop = true;
 restSoundAudio.loop = true;
 export const CountingWorkoutPage = () => {
+    const [totalTimeCounted, setTotalTimeCounted] = useState(0);
+    const [totalTimeCountedInterval, setTotalTimeCountedInterval] =
+        useState(INITIAL_INTERVAL);
+
     const [workoutCounting, setWorkoutCounting] = useState(0);
     const [restCounting, setRestCounting] = useState(0);
     const [isStart, setIsStart] = useState(false);
@@ -39,10 +43,15 @@ export const CountingWorkoutPage = () => {
 
         handleSoundWhenStartWorkout();
 
-        const interval = setInterval(() => {
+        const workoutCountingInterval = setInterval(() => {
             setWorkoutCounting((prev) => prev + 1);
         }, 1000);
-        setIntervalStartWorkout(interval);
+        setIntervalStartWorkout(workoutCountingInterval);
+
+        const totalTimeInterval = setInterval(() => {
+            setTotalTimeCounted((p) => p + 1);
+        }, 1000);
+        setTotalTimeCountedInterval(totalTimeInterval);
     };
 
     const handleStartRest = () => {
@@ -62,6 +71,7 @@ export const CountingWorkoutPage = () => {
         setWorkoutCounting(0);
 
         clearInterval(intervalRest);
+        clearInterval(totalTimeCountedInterval);
 
         countingSoundAudio.pause();
         restSoundAudio.pause();
@@ -119,6 +129,8 @@ export const CountingWorkoutPage = () => {
                 </Button>
             </Stack>
             <Stack>
+                <Typography>Total: {totalTimeCounted}</Typography>
+
                 <Typography color={"red"}>
                     Workout time set: {WORKOUT_TIME}
                 </Typography>
