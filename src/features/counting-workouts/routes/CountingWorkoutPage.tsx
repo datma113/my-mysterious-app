@@ -48,10 +48,12 @@ export const CountingWorkoutPage = () => {
         }, 1000);
         setIntervalStartWorkout(workoutCountingInterval);
 
-        const totalTimeInterval = setInterval(() => {
-            setTotalTimeCounted((p) => p + 1);
-        }, 1000);
-        setTotalTimeCountedInterval(totalTimeInterval);
+        if (!isStart) {
+            const totalTimeInterval = setInterval(() => {
+                setTotalTimeCounted((p) => p + 1);
+            }, 1000);
+            setTotalTimeCountedInterval(totalTimeInterval);
+        }
     };
 
     const handleStartRest = () => {
