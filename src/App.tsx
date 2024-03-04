@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import ReactLogo from "@/assets/react.svg?react";
 import { useGetAuth } from "@/features/authentication/hooks/useGetAuth.ts";
 import { CountingWorkoutPage } from "@/features/counting-workouts/routes/CountingWorkoutPage.tsx";
+import AppLayout from "@/components/side-bar";
 
 function App() {
     const { user, dispatchSetUser } = useGetAuth();
@@ -15,16 +16,16 @@ function App() {
         });
     }, []);
     return (
-        <>
+        <AppLayout>
             <div>
                 <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
                     <ReactLogo />
                 </a>
             </div>
             <p> I AM: {user?.fullName || "no name"} </p>
-            
+
             <CountingWorkoutPage />
-        </>
+        </AppLayout>
     );
 }
 
