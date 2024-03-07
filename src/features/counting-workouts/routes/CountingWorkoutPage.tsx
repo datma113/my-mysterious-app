@@ -6,6 +6,7 @@ import doneSounds from "@/assets/sounds/done-sounds.mp3";
 import restSounds from "@/assets/sounds/rest-sounds.mp3";
 
 const INITIAL_INTERVAL = -1;
+const PER_SECONDS = 1000;
 
 const countingSoundAudio = new Audio(countingSounds);
 const doneSoundAudio = new Audio(doneSounds);
@@ -45,13 +46,13 @@ export const CountingWorkoutPage = () => {
 
         const workoutCountingInterval = setInterval(() => {
             setWorkoutCounting((prev) => prev + 1);
-        }, 1000);
+        }, PER_SECONDS);
         setIntervalStartWorkout(workoutCountingInterval);
 
         if (!isStart) {
             const totalTimeInterval = setInterval(() => {
                 setTotalTimeCounted((p) => p + 1);
-            }, 1000);
+            }, PER_SECONDS);
             setTotalTimeCountedInterval(totalTimeInterval);
         }
     };
@@ -61,7 +62,7 @@ export const CountingWorkoutPage = () => {
 
         const interval = setInterval(() => {
             setRestCounting((prev) => prev + 1);
-        }, 1000);
+        }, PER_SECONDS);
         setIntervalRest(interval);
     };
 

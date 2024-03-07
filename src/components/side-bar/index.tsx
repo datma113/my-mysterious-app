@@ -52,7 +52,7 @@ const AppLayout: React.FC<Props> = ({ children }) => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Mini variant drawer
+                        My misterous header
                     </Typography>
                 </Toolbar>
             </AppBar>
