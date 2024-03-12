@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import ReactLogo from "@/assets/react.svg?react";
 import { useGetAuth } from "@/features/authentication/hooks/useGetAuth.ts";
-import { CountingWorkoutPage } from "@/features/counting-workouts/routes/CountingWorkoutPage.tsx";
 import AppLayout from "@/components/side-bar";
+import { Route, Routes } from "react-router-dom";
+import { routes } from "@/configs/routes.ts";
 
 function App() {
     const { user, dispatchSetUser } = useGetAuth();
@@ -16,16 +16,21 @@ function App() {
         });
     }, []);
     return (
-        <AppLayout>
-            <div>
-                <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-                    <ReactLogo />
-                </a>
-            </div>
-            <p> I AM: {user?.fullName || "no name"} </p>
-
-            <CountingWorkoutPage />
-        </AppLayout>
+        <Routes>
+            {routes.map((route) => {
+                return (
+                    <Route
+                        key={route.toString()}
+                        path={route.path}
+                        element={
+                            <AppLayout>
+                                <route.element />
+                            </AppLayout>
+                        }
+                    ></Route>
+                );
+            })}
+        </Routes>
     );
 }
 
